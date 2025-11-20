@@ -1,10 +1,13 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class Test : NetworkBehaviour
 {
     [SerializeField] float moveSpeed;
     void Update()
     {
+        Debug.Log(IsOwner);
+        if(!IsOwner) return;
         TankMove();
     }
     void TankMove()

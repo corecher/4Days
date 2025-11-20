@@ -1,77 +1,35 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-public class MatchButton : MonoBehaviour
+public class StartButton : MonoBehaviour
 {
-    private bool isMatching = false;
+    [SerializeField] private string gameSceneName = "GamePlayer"; // 이동할 씬 이름
 
-    // 버튼 클릭 시 실행할 함수
-    public void StartRandomMatch()
+    private Button startButton;
+
+    private void Awake()
     {
-        if (isMatching) return; // 중복 방지
-        isMatching = true;
-        
-        StartCoroutine(RandomMatchRoutine());
+        startButton = GetComponent<Button>();
+        startButton.onClick.AddListener(OnStartClicked);
     }
 
-    private IEnumerator RandomMatchRoutine()
+    private void OnStartClicked()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        Debug.Log("🎲 랜덤 매칭 시작!");
-
-        // 클라이언트로 먼저 접속 시도
-        if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
+        // 호스트만 씬 전환 가능
+        if (!NetworkManager.Singleton.IsHost)
         {
-            bool success = NetworkManager.Singleton.StartClient();
-
-            if (success)
-            {
-                Debug.Log("✅ 클라이언트로 접속 성공!");
-            }
-            else
-            {
-                Debug.Log("❌ 클라이언트 접속 실패, 호스트로 전환합니다...");
-                NetworkManager.Singleton.StartHost();
-                Debug.Log("🏠 호스트 시작 (방 생성)");
-            }
+            Debug.LogWarning("Only host can start the game!");
+            return;
         }
-    }
 
-    // 클라이언트가 성공적으로 연결된 경우 자동 호출
-    private void OnEnable()
-{
-    // ✅ 안전하게 Null 체크 추가
-    if (NetworkManager.Singleton != null)
-    {
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-    }
-    else
-    {
-        Debug.LogWarning("⚠️ NetworkManager.Singleton이 아직 초기화되지 않았습니다.");
+        // 모든 클라이언트가 해당 씬으로 넘어가도록 씬 전환
+        NetworkManager.Singleton.SceneManager.LoadScene(gameSceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 }
 
-private void OnDisable()
-{
-    if (NetworkManager.Singleton != null)
-    {
-        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-    }
-}
 
-    private void OnClientConnected(ulong clientId)
-    {
-        Debug.Log($"🎯 클라이언트 {clientId} 연결 완료!");
 
-        // 예시로 씬 이동
-        if (NetworkManager.Singleton.IsHost)
-        {
-            SceneManager.LoadScene("GamePlay"); // 이름은 직접 지정
-        }
-    }
-}
 
 

@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Netcode;
 
-public class TestAttack : MonoBehaviour
+public class TestAttack : NetworkBehaviour
 {
     [SerializeField] float rotationSpeed;
     [SerializeField] float minX = -50f;
@@ -14,6 +15,13 @@ public class TestAttack : MonoBehaviour
     [SerializeField] private float bulletLifeTime = 5f;
 
     void Update()
+    {
+        if (!IsOwner) return;
+        
+        Attack();
+    }
+
+    void Attack()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -37,7 +45,6 @@ public class TestAttack : MonoBehaviour
             Shot(index);
         }
     }
-
     void RotationClamp(int input)
     {
         foreach (Transform child in transform)
