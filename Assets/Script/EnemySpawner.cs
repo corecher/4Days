@@ -2,17 +2,25 @@ using UnityEngine;
 
 public class EnermyS : MonoBehaviour
 {
+    // 0 : fighter, 1 : bomber, 2 : suicide
     public GameObject[] enemy;
-    private SpawnSpot[] spawnSpots;
+    private SpawnSpot[] spawnSpots;  
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spawnSpots = FindObjectsOfType<SpawnSpot>();
     }
+
+    // Update is called once per frame
     void Update()
     {
+
+        int day = Timer.Instance.currentDay;
+
         if (spawnSpots.Length == 0)
         {
-            Debug.LogWarning("SpawnSpot!");
+            Debug.LogWarning("SpawnSpot이 없습니다!");
             return;
         }
 
