@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  bulletPrefab: {fileID: 1582923641714062258, guid: b326953dfdad3e24aa22aa51549b5fe9, type: 3}
+  bulletPrefab: {fileID: 1582923641714062258, guid: a2a511438145f344d8032c7c588bb310, type: 3}
   enemy: {fileID: 6985414097131797897}
 --- !u!114 &2203943493134587993
 MonoBehaviour:
@@ -125,6 +125,7 @@ MonoBehaviour:
   waveSpeed: 2
   tiltXAngle: 30
   tiltZAngle: 20
+  maxHp: 0
 --- !u!54 &3546857782660345226
 Rigidbody:
   m_ObjectHideFlags: 0

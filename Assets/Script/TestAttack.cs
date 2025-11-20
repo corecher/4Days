@@ -13,11 +13,16 @@ public class TestAttack : NetworkBehaviour
     [SerializeField] private Transform cameraTransform;
     private int index = 0; 
     [SerializeField] private float bulletLifeTime = 5f;
-
+    [SerializeField] private Transform body;
+    [SerializeField] private Vector3 offset;
+    void Start()
+    {
+        body=GameObject.FindWithTag("body").GetComponent<Transform>();
+    }
     void Update()
     {
+        FixBody();
         if (!IsOwner) return;
-        
         Attack();
     }
 
@@ -44,6 +49,10 @@ public class TestAttack : NetworkBehaviour
             index = index == 0 ? 1 : 0;
             Shot(index);
         }
+    }
+    void FixBody()
+    {
+        transform.position=offset+body.position;
     }
     void RotationClamp(int input)
     {

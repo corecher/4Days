@@ -11,13 +11,21 @@ public class Enemy2 : MonoBehaviour
     public float tiltXAngle = 30f;
     public float tiltZAngle = 20f;
     private float baseY;
+
+    [SerializeField]private float maxHp;
+    private float hp;
+    private Rigidbody rb;
+    private bool moveOn=true;
     void Start()
     {
+        rb=GetComponent<Rigidbody>();
+        rb.useGravity=false;
         baseY=transform.position.y;
         center = GameObject.FindWithTag("center").GetComponent<Transform>();
     }
     void Update()
     {
+        if(moveOn)
         MoveCircle();
     }
     void MoveCircle()
@@ -31,5 +39,21 @@ public class Enemy2 : MonoBehaviour
         float tiltZ = Mathf.Cos(Time.time * waveSpeed) * tiltZAngle;
         float currentY = transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Euler(tiltX, currentY, tiltZ);
+    }
+    void Damage()
+    {
+        hp--;
+        if(hp<=0)
+        {
+            rb.useGravity=true;
+            moveOn=false;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Bullet"))
+        {
+            Damage();
+        }
     }
 }

@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - center
+  - body
+  - Bullet
   layers:
   - Default
   - TransparentFX
