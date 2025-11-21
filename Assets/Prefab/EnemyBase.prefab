@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  bulletPrefab: {fileID: 1582923641714062258, guid: a2a511438145f344d8032c7c588bb310, type: 3}
+  bulletPrefab: {fileID: 4621027186947045075, guid: a2a511438145f344d8032c7c588bb310, type: 3}
   enemy: {fileID: 6985414097131797897}
 --- !u!114 &2203943493134587993
 MonoBehaviour:

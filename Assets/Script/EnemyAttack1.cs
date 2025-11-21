@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EnemyAttack1 : MonoBehaviour
 {
-    [SerializeField]private Transform Player;
     [SerializeField]private GameObject bulletPrefab;
     [SerializeField]private Transform enemy;
     void Start()

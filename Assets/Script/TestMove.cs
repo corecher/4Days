@@ -4,10 +4,11 @@ using UnityEngine;
 public class Test : NetworkBehaviour
 {
     [SerializeField] float moveSpeed;
+    [SerializeField]private FP_CubeController fP_CubeController;
     void Update()
     {
-        Debug.Log(IsOwner);
         if(!IsOwner) return;
+        if(fP_CubeController.rideOn)
         TankMove();
     }
     void TankMove()
