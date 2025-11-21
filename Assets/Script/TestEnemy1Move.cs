@@ -14,8 +14,14 @@ public class TestEnemy1Move : MonoBehaviour
     [SerializeField]private Transform Player;
     [SerializeField]private float speed;
     public int State=0;
+    [SerializeField]private float maxHp;
+    private float hp;
+    private Rigidbody rb;
+    private bool moveOn=true;
     void Start()
     {
+        rb=GetComponent<Rigidbody>();
+        rb.useGravity=false;
         baseY = transform.position.y;
         Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         center = GameObject.FindWithTag("center").GetComponent<Transform>();
@@ -23,9 +29,9 @@ public class TestEnemy1Move : MonoBehaviour
 
     void Update()
     {
+        if(!moveOn) return;
        switch(State)
-       {
-            
+       {    
             case 0: MoveCircle();break;
             case 1: Dash();break;
             case 2: MoveCircle();break;
@@ -67,6 +73,22 @@ public class TestEnemy1Move : MonoBehaviour
         else
         {
             State=0;
+        }
+    }
+    void Damage()
+    {
+        hp--;
+        if(hp<=0)
+        {
+            rb.useGravity=true;
+            moveOn=false;
+        }
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Bullet"))
+        {
+            Damage();
         }
     }
 }
