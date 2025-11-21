@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e24e034c67f584bbf4c32a1f473408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLengthInMinutes: 10
+  dayLengthInMinutes: 1
   gameTime: 0
 --- !u!4 &1486129729
 Transform:
@@ -330,10 +330,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1232d9fe7164cfb4aa809204d8279c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy:
+  enemyPrefabs:
   - {fileID: 4854931211229089502, guid: c12b6cb6dce6d2f49b6fa49f743e3380, type: 3}
   - {fileID: 8532216448308636238, guid: 6cfcbbe5d7d18f14098b23c5ad9a7df5, type: 3}
   - {fileID: 1244462915137593703, guid: 8f0053f9e9031424f9af97547336a9db, type: 3}
+  waveInterval: 5
+  spawnInterval: 1
 --- !u!4 &1513866674
 Transform:
   m_ObjectHideFlags: 0

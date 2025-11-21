@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq; // 리스트 필터링을 위해 사용
+using System.Linq;
 
 public class EnemyS : MonoBehaviour
 {
@@ -10,12 +10,12 @@ public class EnemyS : MonoBehaviour
     public GameObject[] enemyPrefabs;
 
     [Header("Settings")]
-    public float waveInterval = 5.0f; // 웨이브 사이 간격
-    public float spawnInterval = 1.0f; // 적 생성 사이 간격 (웨이브 내)
+    public float waveInterval = 5.0f;
+    public float spawnInterval = 1.0f;
 
     private SpawnSpot[] allSpawnSpots;
-    private int currentProcessingDay = -1; // 현재 진행 중인 날짜 체크용
-    private bool isNight = false; // 밤/낮 구분 (Timer에서 가져오거나 설정 필요)
+    private int currentProcessingDay = -1;
+    private bool isNight = false;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class EnemyS : MonoBehaviour
 
         if (day == 2 && Timer.Instance.currentHour > 20)
         {
-            day = 21
+            day = 21;
         }
 
         if (currentProcessingDay != day)
@@ -44,7 +44,6 @@ public class EnemyS : MonoBehaviour
         }
     }
 
-    // 날짜별 시나리오 분기
     IEnumerator LevelRoutine(int day)
     {
         Debug.Log($"Day {day} 패턴 시작");
@@ -81,7 +80,7 @@ public class EnemyS : MonoBehaviour
         Transform centerSpot = GetSpotByDirection("Center");
         if (centerSpot != null)
         {
-            SpawnEnemy(0, centerSpot);
+            SpawnEnemy(0, centerSpot); // 튜토리얼은 정찰기(0) 고정
         }
         yield break;
     }
@@ -93,7 +92,10 @@ public class EnemyS : MonoBehaviour
             for (int i = 0; i < 5; i++)
             {
                 Transform spot = GetRandomSpotFrom(allSpawnSpots);
-                SpawnEnemy(0, spot);
+
+                int randomType = Random.Range(0, 2);
+                SpawnEnemy(randomType, spot);
+
                 yield return new WaitForSeconds(spawnInterval);
             }
             yield return new WaitForSeconds(waveInterval);
@@ -111,7 +113,10 @@ public class EnemyS : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 Transform spot = GetSpotByDirection("NorthWest");
-                SpawnEnemy(0, spot);
+
+                int randomType = Random.Range(0, 2);
+                SpawnEnemy(randomType, spot);
+
                 yield return new WaitForSeconds(spawnInterval);
             }
             yield return new WaitForSeconds(waveInterval);
@@ -126,7 +131,7 @@ public class EnemyS : MonoBehaviour
             yield return new WaitForSeconds(randomTime);
 
             Transform spot = GetRandomSpotFrom(allSpawnSpots);
-            SpawnEnemy(2, spot);
+            SpawnEnemy(2, spot); // 자폭병은 2번 고정
         }
     }
 
@@ -136,9 +141,9 @@ public class EnemyS : MonoBehaviour
         {
             Transform northSpot = GetSpotByDirection("North");
 
-            SpawnEnemy(0, northSpot);
+            SpawnEnemy(Random.Range(0, 2), northSpot);
             yield return new WaitForSeconds(0.5f);
-            SpawnEnemy(0, northSpot);
+            SpawnEnemy(Random.Range(0, 2), northSpot);
 
             yield return new WaitForSeconds(8.0f);
         }
