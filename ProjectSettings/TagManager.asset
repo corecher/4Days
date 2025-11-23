@@ -7,6 +7,8 @@ TagManager:
   - center
   - body
   - Bullet
+  - BulletAdd
+  - Ground
   layers:
   - Default
   - TransparentFX

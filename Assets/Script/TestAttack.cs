@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine.UI;
+
 
 public class TestAttack : NetworkBehaviour
 {
@@ -15,15 +17,26 @@ public class TestAttack : NetworkBehaviour
     [SerializeField] private float bulletLifeTime = 5f;
     [SerializeField] private Transform body;
     [SerializeField] private Vector3 offset;
+    [SerializeField] public NetworkVariable<int> ammunition = new NetworkVariable<int>(
+        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField] public NetworkVariable<int> hp = new NetworkVariable<int>(
+        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField]private Image hpUi;
     void Start()
     {
         body=GameObject.FindWithTag("body").GetComponent<Transform>();
+        if (IsServer)
+        {
+            hp.Value = 1000;
+            ammunition.Value = 100;   // 다른 변수도 서버가 초기화하도록
+        }
     }
     void Update()
     {
         FixBody();
         if (!IsOwner) return;
         Attack();
+        hpUi.fillAmount=hp.Value/1000f;
     }
 
     void Attack()
@@ -44,11 +57,21 @@ public class TestAttack : NetworkBehaviour
         {
             RotationClamp(1);
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F)&&ammunition.Value>0)
         {
-            index = index == 0 ? 1 : 0;
-            Shot(index);
+            RequestFireServerRpc();
         }
+    }
+    [ServerRpc]
+    void RequestFireServerRpc()
+    {
+        if (ammunition.Value <= 0) return;
+
+        ammunition.Value--;
+
+        index = index == 0 ? 1 : 0;
+
+        Shot(index);
     }
     void FixBody()
     {
