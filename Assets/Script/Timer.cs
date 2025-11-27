@@ -7,8 +7,8 @@ public class Timer : MonoBehaviour
     public float dayLengthInMinutes = 10f;
 
     public float gameTime = 0f;
-    private int startDay = 1;
-    private int startHour = 0;
+    private int startDay = 0;
+    private int startHour = 23;
     private int startMinute = 0;
     private int startSecond = 0;
 
