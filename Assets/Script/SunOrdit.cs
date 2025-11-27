@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class SunOrbit : MonoBehaviour
 {
-    public Transform center;      // È¸Àü Áß½É (Áö±¸)
-    public float radius = 300f;   // ÅÂ¾ç °Å¸®
-    public float sunSize = 20f;   // ÅÂ¾ç Å©±â
+    public Transform center;      // È¸ï¿½ï¿½ ï¿½ß½ï¿½ (ï¿½ï¿½ï¿½ï¿½)
+    public float radius = 300f;   // ï¿½Â¾ï¿½ ï¿½Å¸ï¿½
+    public float sunSize = 20f;   // ï¿½Â¾ï¿½ Å©ï¿½ï¿½
 
     [Header("Time Settings")]
-    [Tooltip("½Ã°£¿¡ µû¸¥ ÅÂ¾ç À§Ä¡ º¸Á¤ (0ÀÌ¸é 0½Ã¿¡ ¼öÆò¼±, -90ÀÌ¸é 0½Ã¿¡ ¹ß¹Ø)")]
-    public float angleOffset = -90f; // º¸Åë 00:00(ÀÚÁ¤)Àº ÅÂ¾çÀÌ °¡Àå ¾Æ·¡¿¡ ÀÖ¾î¾ß ÇÏ¹Ç·Î -90 ÃßÃµ
+    [Tooltip("ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Â¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ (0ï¿½Ì¸ï¿½ 0ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½, -90ï¿½Ì¸ï¿½ 0ï¿½Ã¿ï¿½ ï¿½ß¹ï¿½)")]
+    public float angleOffset = -90f; // ï¿½ï¿½ï¿½ï¿½ 00:00(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½Â¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ï¹Ç·ï¿½ -90 ï¿½ï¿½Ãµ
 
     void Start()
     {
@@ -26,7 +26,7 @@ public class SunOrbit : MonoBehaviour
     {
         if (Timer.Instance == null) return;
 
-        float timePercent = Timer.Instance.gameTime / 86400f;
+        float timePercent = Timer.Instance.netGameTime.Value / 86400f;
 
         float angle = (timePercent * 360f) + angleOffset;
 

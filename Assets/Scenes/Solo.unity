@@ -344,7 +344,6 @@ GameObject:
   - component: {fileID: 1338618817}
   - component: {fileID: 1338618816}
   - component: {fileID: 1338618815}
-  - component: {fileID: 1338618819}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -441,33 +440,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1338618819
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1338618814}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1398344649
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +599,7 @@ PrefabInstance:
     - target: {fileID: 8460632589372858891, guid: c12b6cb6dce6d2f49b6fa49f743e3380, type: 3}
       propertyPath: bulletPrefab
       value: 
-      objectReference: {fileID: 1582923641714062258, guid: a2a511438145f344d8032c7c588bb310, type: 3}
+      objectReference: {fileID: 4621027186947045075, guid: a2a511438145f344d8032c7c588bb310, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

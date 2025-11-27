@@ -72,6 +72,11 @@ public class TestAttack : NetworkBehaviour
         index = index == 0 ? 1 : 0;
 
         Shot(index);
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayNetworkSound("shot",transform.position);
+            SoundManager.Instance.PlayNetworkSound("gunimpact",transform.position);
+        }
     }
     void FixBody()
     {

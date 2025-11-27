@@ -24,6 +24,7 @@ public class ScenePlayerManager : NetworkBehaviour
 
     private void AssignOwnership()
     {
+        SoundManager.Instance.StopBGM();
         ulong serverId = NetworkManager.ServerClientId;
 
         Debug.Log("AssignOwnership(): Scene objects spawned. Assigning ownership...");
