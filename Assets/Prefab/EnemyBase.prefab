@@ -119,7 +119,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   center: {fileID: 0}
-  rotateSpeed: 50
+  rotateSpeed: 25
+  minApproachSpeed: 20
+  maxApproachSpeed: 50
+  stopDistance: 100
   waveHeight: 5
   waveSpeed: 2
   tiltXAngle: 30

@@ -10,11 +10,12 @@ TagManager:
   - BulletAdd
   - Ground
   - Storage
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - player
   - Water
   - UI
   - 

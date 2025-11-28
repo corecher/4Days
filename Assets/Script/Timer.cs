@@ -46,10 +46,10 @@ public class Timer : NetworkBehaviour
         float timeMultiplier = 86400f / (dayLengthInMinutes * 60f);
         netGameTime.Value += Time.deltaTime * timeMultiplier;
 
-        int dayCheck = 1 + (int)(netGameTime.Value / 86400f);
+        int dayCheck = (int)(netGameTime.Value / 86400f);
 
         // 5일차가 되었고, 아직 로딩 명령을 안 내렸다면
-        if (dayCheck >= 5 && !isSceneLoading)
+        if (dayCheck >= 4 && !isSceneLoading)
         {
             isSceneLoading = true;
             // [중요] 서버가 모든 클라이언트(자신 포함)에게 "게임 끝, 연결 끊고 이동해!"라고 명령
@@ -61,7 +61,7 @@ public class Timer : NetworkBehaviour
     [ClientRpc]
     private void EndGameAndLeaveRoomClientRpc()
     {
-        Debug.Log("5일이 지났습니다. 방을 나가고 씬을 이동합니다.");
+        Debug.Log("4일이 지났습니다. 방을 나가고 씬을 이동합니다.");
 
         // 1. 네트워크 연결 끊기 (방에서 나가기)
         // 호스트는 서버를 닫고, 클라이언트는 연결을 끊습니다.
@@ -75,7 +75,7 @@ public class Timer : NetworkBehaviour
     private void UpdateDisplayVars()
     {
         float time = netGameTime.Value;
-        currentDay = 1 + (int)(time / 86400f); 
+        currentDay = (int)(time / 86400f); 
         float timeOfDay = time % 86400f; 
 
         currentHour = (int)(timeOfDay / 3600f);

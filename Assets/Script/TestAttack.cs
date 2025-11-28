@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class TestAttack : NetworkBehaviour
 {
     [SerializeField] float rotationSpeed;
-    [SerializeField] float minX = -50f;
-    [SerializeField] float maxX = 0f;
+    [SerializeField] float minX = -70f;
+    [SerializeField] float maxX = 20f;
     [SerializeField] GameObject bullet;
     [SerializeField] private float bulletSpeed = 50f;
     [SerializeField] private List<Transform> muzzleTransform;
@@ -117,6 +117,19 @@ public class TestAttack : NetworkBehaviour
             rb.linearVelocity = forwardDir.normalized * bulletSpeed;
         }
         Destroy(bullets, bulletLifeTime);
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!IsServer) return;
+
+        if(collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            // Reduce HP
+            int damage = 100; // Example damage
+            hp.Value = Mathf.Max(0, hp.Value - damage);
+            // Optional: Destroy the bullet that hit us
+            Destroy(collision.gameObject);
+        }
     }
 }
 

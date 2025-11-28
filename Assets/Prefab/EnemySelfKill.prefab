@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -2943537610423216766}
   m_Layer: 0
   m_Name: EnemySelfKill
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,10 +103,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bab067a0bfd5747811109c3cfb2939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 0}
-  rotateSpeed: 50
   Player: {fileID: 0}
-  speed: 10
+  dashRange: 200
+  rotateSpeed: 25
+  minSpiralSpeed: 20
+  maxSpiralSpeed: 50
+  dashSpeed: 30
+  waveHeight: 2
+  waveSpeed: 5
+  tiltXAngle: 20
+  tiltZAngle: 20
   maxHp: 0
 --- !u!65 &5744174500183835619
 BoxCollider:
