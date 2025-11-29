@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class TestAttack : NetworkBehaviour
 {
@@ -125,10 +125,15 @@ public class TestAttack : NetworkBehaviour
         if(collision.gameObject.CompareTag("EnemyBullet"))
         {
             // Reduce HP
-            int damage = 100; // Example damage
+            int damage = 1000; // Example damage
             hp.Value = Mathf.Max(0, hp.Value - damage);
-            // Optional: Destroy the bullet that hit us
             Destroy(collision.gameObject);
+            if (hp.Value == 0)
+            {
+                // 주의: 멀티플레이에서는 NetworkSceneManager를 써야 모든 클라이언트가 같이 이동합니다.
+                // "A"는 이동하려는 씬의 정확한 이름이어야 합니다.
+                NetworkManager.Singleton.SceneManager.LoadScene("Die_Ending", LoadSceneMode.Single);
+            }
         }
     }
 }

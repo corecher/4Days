@@ -114,7 +114,7 @@ public class TestEnemy1Move : MonoBehaviour
         if (State == 2) // 명확하게 State 2일 때만 상승하도록 조건 강화 권장, 혹은 기존 로직 유지
         {
              // 현재 로직상 MoveCircle 내에서 호출되므로, Y가 100보다 낮으면 강제로 올림
-            if (pos.y < 300f)
+            if (pos.y < 400f)
             {
                 // Y축만 부드럽게 상승
                 pos.y = Mathf.MoveTowards(pos.y, 300f, 50f * Time.deltaTime);
@@ -124,7 +124,7 @@ public class TestEnemy1Move : MonoBehaviour
             {
                 // 충분히 올라갔으면 다시 State 0으로 복귀
                 State = 0;
-                baseY = 300f; // 출렁임의 기준 높이를 현재 높이로 재설정 (안하면 다시 뚝 떨어짐)
+                baseY = 400f; // 출렁임의 기준 높이를 현재 높이로 재설정 (안하면 다시 뚝 떨어짐)
             }
         }
     }
