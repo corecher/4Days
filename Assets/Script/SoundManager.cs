@@ -26,7 +26,7 @@ public class SoundManager : NetworkBehaviour
 
     // [추가] BGM을 재생할 전용 스피커 (오디오 소스)
     private AudioSource bgmSource; 
-
+    public bool state;
     private void Awake()
     {
         if (Instance == null)
@@ -135,9 +135,9 @@ public class SoundManager : NetworkBehaviour
             AudioSource source = soundObj.AddComponent<AudioSource>();
             source.clip = data.clip;
             source.volume = data.volume;
-            source.spatialBlend = 1f; // 3D 사운드 (거리에 따라 소리 작아짐)
-            source.minDistance = 2f;  // 소리가 들리기 시작하는 거리
-            source.maxDistance = 50f; // 소리가 안 들리는 최대 거리
+            source.spatialBlend = 100f; // 3D 사운드 (거리에 따라 소리 작아짐)
+            source.minDistance = 300f;  // 소리가 들리기 시작하는 거리
+            source.maxDistance = 500f; // 소리가 안 들리는 최대 거리
             
             source.Play();
 
@@ -148,5 +148,21 @@ public class SoundManager : NetworkBehaviour
         {
             Debug.LogWarning($"사운드 {soundName}을(를) 찾을 수 없습니다!");
         }
+    }
+    // [추가] 서버에서 강제로 모두에게 BGM 정지 명령 (예: 게임 종료, 컷신 등)
+    public void StopNetworkBGM()
+    {
+        // 서버만 이 명령을 내릴 수 있음
+        if (IsServer)
+        {
+            StopBGMClientRpc();
+        }
+    }
+
+    // [추가] 실제 클라이언트들에서 실행되는 BGM 정지 (RPC)
+    [ClientRpc]
+    private void StopBGMClientRpc()
+    {
+        StopBGM(); // 기존에 만들어둔 로컬 StopBGM 함수 호출
     }
 }

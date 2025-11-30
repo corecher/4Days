@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Enemy2 : MonoBehaviour
 {
     public Transform center;
@@ -24,13 +24,14 @@ public class Enemy2 : MonoBehaviour
     private float hp;
     private Rigidbody rb;
     private bool moveOn = true;
+    private EnemyAttack1 enemyAttack1;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         baseY = transform.position.y;
-
+        enemyAttack1=GetComponent<EnemyAttack1>();
         // --- [변경점] 랜덤 속도 지정 ---
         // 최소값과 최대값 사이에서 랜덤하게 하나를 골라 현재 속도로 지정합니다.
         currentApproachSpeed = Random.Range(minApproachSpeed, maxApproachSpeed); 
@@ -45,12 +46,14 @@ public class Enemy2 : MonoBehaviour
         {
             moveOn = false;
         }
+        StartCoroutine(SoundTimer());
     }
 
     void Update()
     {
         if (moveOn && center != null)
             MoveCircle();
+        
     }
 
     void MoveCircle()
@@ -88,7 +91,15 @@ public class Enemy2 : MonoBehaviour
         {
             rb.useGravity = true;
             moveOn = false;
+            enemyAttack1.enabled=false;
         }
+    }
+
+    private IEnumerator SoundTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(12,10));
+        SoundManager.Instance.PlayNetworkSound("Fly",transform.position);
+        StartCoroutine(SoundTimer());
     }
 
     void OnCollisionEnter(Collision collision)

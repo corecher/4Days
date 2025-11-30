@@ -1898,6 +1898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6d6087c9466634b8454ec3d60fd71e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   rotationSpeed: 25
   minX: -50
   maxX: 0
@@ -1908,6 +1909,14 @@ MonoBehaviour:
   - {fileID: 4051755586426397113}
   cameraTransform: {fileID: 7561663599041670972}
   bulletLifeTime: 5
+  body: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
+  ammunition:
+    m_InternalValue: 0
+  hp:
+    m_InternalValue: 0
+  hpUi: {fileID: 0}
+  bullets: {fileID: 0}
 --- !u!114 &580190727326541515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3135,4 +3144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c00ab8e1b813cb48ada66e8b1b63ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 10
+  fP_CubeController: {fileID: 0}

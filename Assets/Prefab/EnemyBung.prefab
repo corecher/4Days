@@ -114,6 +114,7 @@ MonoBehaviour:
   speed: 20
   State: 0
   maxHp: 0
+  bullet: {fileID: 7664552229603343502, guid: 78f008c9a5821a1438c63ecbd2bcf965, type: 3}
 --- !u!65 &7860846267471789254
 BoxCollider:
   m_ObjectHideFlags: 0

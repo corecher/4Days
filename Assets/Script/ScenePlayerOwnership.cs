@@ -24,7 +24,12 @@ public class ScenePlayerManager : NetworkBehaviour
 
     private void AssignOwnership()
     {
-        SoundManager.Instance.StopBGM();
+        if (IsServer)
+        {
+            Debug.Log("게임 종료! BGM 정지");
+            // 모든 플레이어의 BGM 끄기
+            SoundManager.Instance.StopNetworkBGM(); 
+        }
         ulong serverId = NetworkManager.ServerClientId;
 
         Debug.Log("AssignOwnership(): Scene objects spawned. Assigning ownership...");

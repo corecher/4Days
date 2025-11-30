@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy3 : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class Enemy3 : MonoBehaviour
 
         // 나선 이동 시 다가갈 속도 랜덤 설정
         currentSpiralSpeed = Random.Range(minSpiralSpeed, maxSpiralSpeed);
+        StartCoroutine(SoundTimer());
     }
 
     void Update()
@@ -107,6 +109,12 @@ public class Enemy3 : MonoBehaviour
             rb.useGravity = true;
             moveOn = false;
         }
+    }
+    private IEnumerator SoundTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(12,10));
+        SoundManager.Instance.PlayNetworkSound("Fly",transform.position);
+        StartCoroutine(SoundTimer());
     }
 
     void OnCollisionEnter(Collision collision)

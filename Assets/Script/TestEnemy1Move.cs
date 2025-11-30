@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class TestEnemy1Move : MonoBehaviour
 {
     public float rotateSpeed = 50f;
@@ -24,7 +24,7 @@ public class TestEnemy1Move : MonoBehaviour
     private float hp;
     private Rigidbody rb;
     private bool moveOn = true;
-
+    [SerializeField] GameObject bullet;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,6 +37,7 @@ public class TestEnemy1Move : MonoBehaviour
 
         // [추가됨] 랜덤 접근 속도 설정
         currentApproachSpeed = Random.Range(minApproachSpeed, maxApproachSpeed);
+        StartCoroutine(SoundTimer());
     }
 
     void Update()
@@ -103,8 +104,12 @@ public class TestEnemy1Move : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
 
         // 플레이어와 매우 가까워지면(공격 후) State 2로 전환 (고도 상승 및 복귀)
-        if (Vector3.Distance(Player.position, transform.position) < 30) 
+        if (Vector3.Distance(Player.position, transform.position) < 30)
+        {
             State = 2;
+            Instantiate(bullet,transform.position,transform.rotation);
+        } 
+            
     }
 
     void UpPlane(Vector3 pos)
@@ -117,7 +122,7 @@ public class TestEnemy1Move : MonoBehaviour
             if (pos.y < 400f)
             {
                 // Y축만 부드럽게 상승
-                pos.y = Mathf.MoveTowards(pos.y, 300f, 50f * Time.deltaTime);
+                pos.y = Mathf.MoveTowards(pos.y, 400f, 50f * Time.deltaTime);
                 transform.position = pos;
             }
             else
@@ -137,6 +142,12 @@ public class TestEnemy1Move : MonoBehaviour
             rb.useGravity = true;
             moveOn = false;
         }
+    }
+    private IEnumerator SoundTimer()
+    {
+        yield return new WaitForSeconds(Random.Range(12,10));
+        SoundManager.Instance.PlayNetworkSound("Fly",transform.position);
+        StartCoroutine(SoundTimer());
     }
 
     void OnCollisionEnter(Collision collision)

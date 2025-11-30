@@ -49,7 +49,7 @@ public class Timer : NetworkBehaviour
         int dayCheck = (int)(netGameTime.Value / 86400f);
 
         // 5일차가 되었고, 아직 로딩 명령을 안 내렸다면
-        if (dayCheck >= 4 && !isSceneLoading)
+        if (dayCheck >= 5 && !isSceneLoading)
         {
             isSceneLoading = true;
             // [중요] 서버가 모든 클라이언트(자신 포함)에게 "게임 끝, 연결 끊고 이동해!"라고 명령
@@ -66,7 +66,7 @@ public class Timer : NetworkBehaviour
         // 1. 네트워크 연결 끊기 (방에서 나가기)
         // 호스트는 서버를 닫고, 클라이언트는 연결을 끊습니다.
         NetworkManager.Singleton.Shutdown();
-
+        SoundManager.Instance.state=false;
         // 2. 로컬 씬 이동 (각자 컴퓨터에서 혼자 이동)
         // Unity.Netcode의 SceneManager가 아니라, 기본 UnityEngine의 SceneManager를 씁니다.
         SceneManager.LoadScene(gameSceneName);

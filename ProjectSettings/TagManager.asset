@@ -11,6 +11,8 @@ TagManager:
   - Ground
   - Storage
   - EnemyBullet
+  - EnemyBulletbig
+  - EnemyBulletself
   layers:
   - Default
   - TransparentFX

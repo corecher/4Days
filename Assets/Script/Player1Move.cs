@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FP_CubeController : NetworkBehaviour
 {
@@ -32,6 +33,7 @@ public class FP_CubeController : NetworkBehaviour
     // 소리 쿨타임 변수
     private float soundTimer = 0f;
     private float soundInterval = 0.5f;
+    [SerializeField]private Text bullet;
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class FP_CubeController : NetworkBehaviour
         UpdateAnimation();
 
         if (!IsOwner) return;
-
+        Textprint();
         Look();
         Move();
         Jump();
@@ -60,6 +62,7 @@ public class FP_CubeController : NetworkBehaviour
              if (Input.GetKeyDown(KeyCode.F))
             {
                 rideOn = rideOn ? false : true;
+                rb.useGravity=!rideOn;
                 UiState();
                 collider.enabled = !rideOn;
                 if (!rideOn)
@@ -78,7 +81,10 @@ public class FP_CubeController : NetworkBehaviour
         if (rideOn) RideTank();
         if (transform.position.y < -5) transform.position += new Vector3(0, 300, 0);
     }
-
+    void Textprint()
+    {
+        bullet.text=$"{haveMagazine.Value}"+"/5";
+    }
     void UpdateAnimation()
     {
         animator.SetBool("run", isWalking.Value);

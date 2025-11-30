@@ -8097,16 +8097,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: bgmList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: soundList.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: bgmList.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: e8721f25e3c016f4694ab02520c080e6, type: 3}
+      objectReference: {fileID: 8300000, guid: fb08fb5deda4c224f93f589972f3e3c8, type: 3}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: bgmList.Array.data[0].name
       value: MenuBGM
@@ -8120,11 +8120,23 @@ PrefabInstance:
       value: MenuBGM2
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: bgmList.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9b005b5432f04144b85db92e51a4c2f1, type: 3}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: bgmList.Array.data[2].name
+      value: Flyed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: bgmList.Array.data[0].volume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: bgmList.Array.data[1].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: bgmList.Array.data[2].volume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
@@ -8160,12 +8172,28 @@ PrefabInstance:
       value: concret
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f9ffec76d108ced4d8a41f954d206679, type: 3}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[4].name
+      value: Fly
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9b005b5432f04144b85db92e51a4c2f1, type: 3}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[5].name
+      value: Flyed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: soundList.Array.data[0].volume
-      value: 0.6
+      value: 0.376
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: soundList.Array.data[1].volume
-      value: 1
+      value: 0.792
       objectReference: {fileID: 0}
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: soundList.Array.data[2].volume
@@ -8174,6 +8202,14 @@ PrefabInstance:
     - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
       propertyPath: soundList.Array.data[3].volume
       value: 0.753
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[4].volume
+      value: 0.831
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361918812217003433, guid: fc7db937592d53c47a4d44c44206fd4c, type: 3}
+      propertyPath: soundList.Array.data[5].volume
+      value: 0.831
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

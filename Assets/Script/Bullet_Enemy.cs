@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet_Enemy : MonoBehaviour
@@ -9,6 +10,7 @@ public class Bullet_Enemy : MonoBehaviour
         Destroy(gameObject,3f);
         Transform playerpos=GameObject.FindWithTag("Player").GetComponent<Transform>();
         Player=playerpos.position;
+        Player.y-=2f;
     }
     void Update()
     {
