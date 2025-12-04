@@ -162,7 +162,7 @@ public class TestEnemy1Move : NetworkBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(10f, 12f));
+            yield return new WaitForSeconds(Random.Range(20f, 100f));
             PlaySoundClientRpc(transform.position);
         }
     }

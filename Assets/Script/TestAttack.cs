@@ -23,7 +23,7 @@ public class TestAttack : NetworkBehaviour
     [Header("References")]
     [SerializeField] private Transform body;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private Image hpUi;
+    [SerializeField] private GameObject hpUi;
     [SerializeField] private Text bullets;
     [SerializeField] private string gameSceneName = "LobbyScene"; 
 
@@ -42,6 +42,26 @@ public class TestAttack : NetworkBehaviour
         {
             hp.Value = 1000;
             ammunition.Value = 100;
+        }
+        if (IsOwner)
+        {
+        if (hpUi == null)
+        {
+            hpUi = GameObject.Find("HpUI"); // ⛔ 자신의 HpUI 정확한 이름으로 수정
+        }
+
+        if (hpUi == null)
+        {
+            Debug.LogError("❌ HpUI를 찾지 못했습니다!");
+        }
+        else
+        {
+            // ✅ UI 안전 초기화
+            for (int i = 0; i < hpUi.transform.childCount; i++)
+            {
+                hpUi.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
         }
 
         UpdateUI();
@@ -67,9 +87,6 @@ public class TestAttack : NetworkBehaviour
         SceneManager.LoadScene(gameSceneName);
     }
 
-    // ==================================================================================
-    // [수정] HP 변경 감지 및 우아한 종료 처리
-    // ==================================================================================
     private void OnHealthChanged(int previousValue, int newValue)
     {
         if (newValue <= 0 && IsOwner)
@@ -78,54 +95,38 @@ public class TestAttack : NetworkBehaviour
 
             if (IsServer)
             {
-                // 내가 호스트라면: 클라이언트들을 먼저 내보내고 나중에 나간다.
                 StartCoroutine(EndGameSequence());
             }
             else
             {
-                // 내가 일반 클라이언트라면: 그냥 나간다.
                 LeaveGameLocal();
             }
         }
     }
 
-    // [추가] 호스트가 주도하는 종료 시퀀스
     private IEnumerator EndGameSequence()
     {
-        // 1. 모든 클라이언트에게 나가라고 명령 (호스트 자신은 제외됨)
         LeaveGameClientRpc();
-
-        // 2. 클라이언트들이 메시지를 받고 처리할 시간을 줌 (네트워크 지연 고려 0.5~1초)
         yield return new WaitForSeconds(1.0f);
-
-        // 3. 호스트 종료
         LeaveGameLocal();
     }
 
-    // [추가] 클라이언트들에게 실행되는 RPC (호스트가 호출)
     [ClientRpc]
     private void LeaveGameClientRpc()
     {
-        // 호스트가 이 RPC를 받으면 무시 (호스트는 코루틴에서 별도로 처리)
         if (IsServer) return;
-
         LeaveGameLocal();
     }
 
-    // [추가] 실제 연결 해제 및 씬 이동 로직 (공통)
     private void LeaveGameLocal()
     {
-        // 셧다운 (연결 해제)
         NetworkManager.Singleton.Shutdown();
-        
         if (SoundManager.Instance != null) SoundManager.Instance.state = true;
-        
-        // 씬 이동
         SceneManager.LoadScene(gameSceneName);
     }
 
     // ==================================================================================
-    // 기존 로직 유지
+    // [수정 포인트 1] 충돌 처리 시 안전장치 추가
     // ==================================================================================
     void OnCollisionEnter(Collision collision)
     {
@@ -142,7 +143,12 @@ public class TestAttack : NetworkBehaviour
 
             if (collision.gameObject.TryGetComponent<NetworkObject>(out NetworkObject netObj))
             {
-                netObj.Despawn();
+                // [중요] 이미 Despawn된 오브젝트를 다시 Despawn 하려 하면 에러 발생함.
+                // 따라서 IsSpawned를 확인해야 함.
+                if (netObj.IsSpawned) 
+                {
+                    netObj.Despawn();
+                }
             }
             else
             {
@@ -171,8 +177,21 @@ public class TestAttack : NetworkBehaviour
 
     void UpdateUI()
     {
-        if (hpUi != null) hpUi.fillAmount = hp.Value / 1000f;
-        if (bullets != null) bullets.text = $"{ammunition.Value}/500";
+        if (!IsOwner) return;
+    if (hpUi == null) return;
+
+    int max = hpUi.transform.childCount;
+
+    // ✅ 체력을 UI 개수 범위 안으로 강제 제한
+    int activeCount = Mathf.Clamp(hp.Value / 100, 0, max);
+
+    for (int i = 0; i < max; i++)
+    {
+        hpUi.transform.GetChild(i).gameObject.SetActive(i >= activeCount);
+    }
+
+    if (bullets != null)
+        bullets.text = $"{ammunition.Value}/500";
     }
 
     void Attack()
@@ -207,6 +226,9 @@ public class TestAttack : NetworkBehaviour
         }
     }
 
+    // ==================================================================================
+    // [수정 포인트 2] Destroy() 제거 및 Despawn 로직 변경
+    // ==================================================================================
     void Shot(int i)
     {
         Vector3 spawnPos;
@@ -235,9 +257,32 @@ public class TestAttack : NetworkBehaviour
         }
 
         NetworkObject bulletNetObj = bulletInstance.GetComponent<NetworkObject>();
-        if (bulletNetObj != null) bulletNetObj.Spawn();
-        
-        Destroy(bulletInstance, bulletLifeTime);
+        if (bulletNetObj != null) 
+        {
+            bulletNetObj.Spawn();
+            
+            // [중요] Destroy(bulletInstance, bulletLifeTime) 삭제!
+            // 대신 네트워크 오브젝트를 안전하게 삭제하는 코루틴 실행
+            StartCoroutine(DespawnBulletDelay(bulletNetObj, bulletLifeTime));
+        }
+        else
+        {
+            // 네트워크 오브젝트가 아니면 그냥 Destroy 해도 됨 (이럴 일은 거의 없겠지만)
+            Destroy(bulletInstance, bulletLifeTime);
+        }
+    }
+
+    // [추가] 총알 수명 관리 코루틴
+    IEnumerator DespawnBulletDelay(NetworkObject bulletObj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // 시간이 지났는데 총알이 아직 존재하고, 스폰된 상태라면 Despawn 수행
+        // (만약 그 전에 충돌해서 이미 Despawn 되었다면 이 조건문에서 걸러짐)
+        if (bulletObj != null && bulletObj.IsSpawned)
+        {
+            bulletObj.Despawn();
+        }
     }
 
     void FixBody()

@@ -106,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4621027186947045075, guid: a2a511438145f344d8032c7c588bb310, type: 3}
   enemy: {fileID: 6985414097131797897}
+  playAttack: 0
 --- !u!114 &-4178372769852388228
 MonoBehaviour:
   m_ObjectHideFlags: 0

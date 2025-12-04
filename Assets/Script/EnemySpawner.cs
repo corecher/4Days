@@ -31,7 +31,7 @@ public class EnemyS : NetworkBehaviour
 
     void Update()
     {
-        Debug.Log(IsServer);
+        if (Timer.Instance == null) return;
         if (!IsServer) return; // ✅ 서버 전용
 
         int day = Timer.Instance.currentDay;

@@ -117,9 +117,9 @@ public class Enemy3 : NetworkBehaviour
     // ✅ 사운드 타이머는 서버에서만 실행 → 모든 클라이언트에 전달
     private IEnumerator SoundTimer()
     {
-        while (true)
+        while (IsSpawned)
         {
-            yield return new WaitForSeconds(Random.Range(10f, 12f));
+            yield return new WaitForSeconds(Random.Range(20f, 100f));
             PlaySoundClientRpc(transform.position);
         }
     }
@@ -141,7 +141,11 @@ public class Enemy3 : NetworkBehaviour
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            NetworkObject netObj = GetComponent<NetworkObject>();
+            if (netObj != null && netObj.IsSpawned)
+            {
+                netObj.Despawn(true);   // ✅ 안전한 제거
+            }
         }
     }
 }

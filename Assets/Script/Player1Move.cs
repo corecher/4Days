@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -34,6 +35,7 @@ public class FP_CubeController : NetworkBehaviour
     private float soundTimer = 0f;
     private float soundInterval = 0.5f;
     [SerializeField]private Text bullet;
+    private bool isWalkSoundRunning = false;
 
     void Start()
     {
@@ -93,7 +95,15 @@ public class FP_CubeController : NetworkBehaviour
     [ServerRpc]
     void walkSoundServerRpc(ServerRpcParams rpcParams = default)
     {
+        if(isWalkSoundRunning) return;
+        StartCoroutine(WalkSoundControll());
+    }
+    private IEnumerator WalkSoundControll()
+    {
+        isWalkSoundRunning=true;
         SoundManager.Instance.PlayNetworkSound(walkSound, transform.position);
+        yield return new WaitForSeconds(11f);
+        isWalkSoundRunning=false;
     }
 
     void Move()

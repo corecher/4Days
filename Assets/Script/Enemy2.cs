@@ -102,13 +102,13 @@ public class Enemy2 : NetworkBehaviour
         {
             rb.useGravity = true;
             moveOn = false;
-            enemyAttack1.enabled = false;
+            enemyAttack1.playAttack=false;
         }
     }
 
     private IEnumerator SoundTimer()
     {
-        yield return new WaitForSeconds(Random.Range(10f, 12f));
+        yield return new WaitForSeconds(Random.Range(20f, 100f));
         PlaySoundClientRpc(transform.position);
         StartCoroutine(SoundTimer());
     }
