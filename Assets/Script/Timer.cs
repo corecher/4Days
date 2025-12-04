@@ -84,6 +84,6 @@ public class Timer : NetworkBehaviour
 
     public string GetTimeString()
     {
-        return $"Day {currentDay:D2} - {currentHour:D2}/{currentMinute:D2}";
+        return $"Day {currentDay:D2} : {currentHour:D2}";
     }
 }

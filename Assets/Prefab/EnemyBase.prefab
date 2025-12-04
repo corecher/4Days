@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3339559518702331419}
   - component: {fileID: 3167924561050238424}
   - component: {fileID: 8460632589372858891}
+  - component: {fileID: -4178372769852388228}
   - component: {fileID: 2203943493134587993}
   - component: {fileID: 3546857782660345226}
   - component: {fileID: 5566284658425602889}
-  - component: {fileID: -4178372769852388228}
   - component: {fileID: -7085744889260130577}
   m_Layer: 0
   m_Name: EnemyBase
@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a5f8061666fe9fa4fbced72fd2bec360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,6 +106,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 4621027186947045075, guid: a2a511438145f344d8032c7c588bb310, type: 3}
   enemy: {fileID: 6985414097131797897}
+--- !u!114 &-4178372769852388228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854931211229089502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2796303714
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &2203943493134587993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ffbe14540502a499dcffca44759eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   center: {fileID: 0}
   rotateSpeed: 25
   minApproachSpeed: 20
@@ -176,31 +202,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 9.442198, y: 2.8027797, z: 10.768427}
   m_Center: {x: 0, y: -0.00000071525574, z: -0.000007390976}
---- !u!114 &-4178372769852388228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4854931211229089502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2796303714
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &-7085744889260130577
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections; // IEnumerator 사용을 위해 추가
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.UI;

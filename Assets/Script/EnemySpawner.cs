@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 
-public class EnemyS : MonoBehaviour
+public class EnemyS : NetworkBehaviour
 {
     [Header("Enemy Prefabs")]
-    // 0: Fighter(±âº»/Á¤Âû), 1: Bomber(Æø°İ), 2: Suicide(ÀÚÆø)
     public GameObject[] enemyPrefabs;
 
     [Header("Settings")]
@@ -19,16 +19,21 @@ public class EnemyS : MonoBehaviour
 
     void Start()
     {
+        if (!IsServer) return; // âœ… ì„œë²„ë§Œ ìŠ¤í° ë¡œì§ ì‹¤í–‰
+
         allSpawnSpots = FindObjectsOfType<SpawnSpot>();
 
         if (allSpawnSpots.Length == 0)
         {
-            Debug.LogError("¾À¿¡ SpawnSpotÀÌ ¾ø½À´Ï´Ù!");
+            Debug.LogError("SpawnSpotì´ ì—†ìŠµë‹ˆë‹¤!");
         }
     }
 
     void Update()
     {
+        Debug.Log(IsServer);
+        if (!IsServer) return; // âœ… ì„œë²„ ì „ìš©
+
         int day = Timer.Instance.currentDay;
 
         if (day == 2 && Timer.Instance.currentHour > 20)
@@ -46,20 +51,20 @@ public class EnemyS : MonoBehaviour
 
     IEnumerator LevelRoutine(int day)
     {
-        Debug.Log($"Day {day} ÆĞÅÏ ½ÃÀÛ");
+        Debug.Log($"Day {day} ìŠ¤í° ì‹œì‘");
 
         switch (day)
         {
-            case 0: // Æ©Åä¸®¾ó
+            case 0:
                 yield return StartCoroutine(TutorialPattern());
                 break;
 
-            case 1: // ¸ŞÀÎ 1ÀÏÂ÷ (³·)
-            case 2: // ¸ŞÀÎ 2ÀÏÂ÷ (³·)
+            case 1:
+            case 2:
                 yield return StartCoroutine(DayPatternCommon(4));
                 break;
 
-            case 21: // ¸ŞÀÎ 2-1 (2ÀÏÂ÷ ¹ã)
+            case 21:
                 yield return StartCoroutine(NightAmbushPattern());
                 break;
 
@@ -73,14 +78,12 @@ public class EnemyS : MonoBehaviour
         }
     }
 
-    // --- [ÆĞÅÏ ·ÎÁ÷ ±¸Çö] ---
-
     IEnumerator TutorialPattern()
     {
         Transform centerSpot = GetSpotByDirection("Center");
         if (centerSpot != null)
         {
-            SpawnEnemy(0, centerSpot); // Æ©Åä¸®¾óÀº Á¤Âû±â(0) °íÁ¤
+            SpawnEnemy(0, centerSpot);
         }
         yield break;
     }
@@ -92,8 +95,8 @@ public class EnemyS : MonoBehaviour
             for (int i = 0; i < 5; i++)
             {
                 Transform spot = GetRandomSpotFrom(allSpawnSpots);
-
                 int randomType = Random.Range(0, 2);
+
                 SpawnEnemy(randomType, spot);
 
                 yield return new WaitForSeconds(spawnInterval);
@@ -131,7 +134,7 @@ public class EnemyS : MonoBehaviour
             yield return new WaitForSeconds(randomTime);
 
             Transform spot = GetRandomSpotFrom(allSpawnSpots);
-            SpawnEnemy(2, spot); // ÀÚÆøº´Àº 2¹ø °íÁ¤
+            SpawnEnemy(2, spot);
         }
     }
 
@@ -165,14 +168,24 @@ public class EnemyS : MonoBehaviour
         }
     }
 
-    // --- [À¯Æ¿¸®Æ¼ ÇÔ¼ö] ---
-
+    // âœ… âœ… âœ… ë©€í‹° ì „ìš© ìŠ¤í° ë°©ì‹ âœ… âœ… âœ…
     void SpawnEnemy(int index, Transform spot)
     {
+        if (!IsServer) return;
         if (spot == null) return;
         if (index < 0 || index >= enemyPrefabs.Length) return;
 
-        Instantiate(enemyPrefabs[index], spot.position, spot.rotation);
+        GameObject enemy = Instantiate(enemyPrefabs[index], spot.position, spot.rotation);
+
+        NetworkObject netObj = enemy.GetComponent<NetworkObject>();
+        if (netObj != null)
+        {
+            netObj.Spawn();   // âœ… ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì— ë™ê¸°í™”
+        }
+        else
+        {
+            Debug.LogError("Enemy í”„ë¦¬íŒ¹ì— NetworkObjectê°€ ì—†ìŠµë‹ˆë‹¤!");
+        }
     }
 
     Transform GetRandomSpotFrom(SpawnSpot[] spots)
